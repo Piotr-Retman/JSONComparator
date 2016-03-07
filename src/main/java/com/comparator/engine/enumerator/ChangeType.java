@@ -1,4 +1,4 @@
-package com.comparator.engine.interf;
+package com.comparator.engine.enumerator;
 
 /**
  * Created by Retman on 2016-03-07.

@@ -1,6 +1,8 @@
 package com.comparator.engine.interf;
 
 
+import com.comparator.engine.enumerator.ChangeType;
+
 import java.util.List;
 import java.util.Map;
 

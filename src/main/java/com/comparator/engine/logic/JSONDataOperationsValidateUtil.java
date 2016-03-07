@@ -1,4 +1,4 @@
-package com.comparator.engine;
+package com.comparator.engine.logic;
 
 import org.json.JSONException;
 import org.json.JSONObject;

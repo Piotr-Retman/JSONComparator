@@ -1,5 +1,7 @@
 package com.comparator.engine;
 
+import com.comparator.engine.logic.JSONCompareInterfaceImpl;
+
 public class Main {
 
     public static void main(String[] args) {

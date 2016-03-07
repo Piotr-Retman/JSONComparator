@@ -1,4 +1,4 @@
-package com.comparator.engine;
+package com.comparator.engine.logic;
 
 import com.comparator.engine.interf.JSONDataOperationsInterface;
 import org.json.JSONObject;

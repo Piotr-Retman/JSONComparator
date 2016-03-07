@@ -1,6 +1,6 @@
-package com.comparator.engine;
+package com.comparator.engine.logic;
 
-import com.comparator.engine.interf.ChangeType;
+import com.comparator.engine.enumerator.ChangeType;
 import com.comparator.engine.interf.JSONCompareInterface;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
