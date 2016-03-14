@@ -2,12 +2,10 @@ package com.comparator.engine.logic;
 
 import com.comparator.engine.enumerator.ChangeType;
 import com.comparator.engine.enumerator.State;
-import com.comparator.engine.interf.JSONCompareInterface;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Created by Retman on 2016-03-07.

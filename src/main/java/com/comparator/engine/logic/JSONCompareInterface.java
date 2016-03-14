@@ -1,4 +1,4 @@
-package com.comparator.engine.interf;
+package com.comparator.engine.logic;
 
 
 import com.comparator.engine.enumerator.ChangeType;
