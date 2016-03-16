@@ -11,5 +11,4 @@ import java.util.Map;
  */
 public interface JSONCompareInterface {
     <T extends Object> T compareJSONS(String compareFrom, String compareTo);
-    Map<ChangeType,List<String>> generateMapJSONChangesTypesOnPaths(String compareFrom, String compareTo);
 }
