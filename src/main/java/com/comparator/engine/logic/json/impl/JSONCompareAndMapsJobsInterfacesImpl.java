@@ -1,21 +1,23 @@
-package com.comparator.engine.logic;
+package com.comparator.engine.logic.json.impl;
 
 import com.comparator.engine.enumerator.ChangeType;
+import com.comparator.engine.enumerator.ErrorConst;
 import com.comparator.engine.enumerator.State;
+import com.comparator.engine.exception.ValidateException;
+import com.comparator.engine.logic.json.impl.interf.JSONCompareInterface;
+import com.comparator.engine.logic.json.impl.interf.JSONMapsJobsInterface;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by Retman on 2016-03-07.
  */
 @SuppressWarnings("unchecked")
-public class JSONCompareInterfaceImpl implements JSONCompareInterface, JSONMapsJobsInterface {
+public class JSONCompareAndMapsJobsInterfacesImpl implements JSONCompareInterface, JSONMapsJobsInterface {
     @Override
-    public <T> T compareJSONS(String compareFrom, String compareTo) {
+    public <T> T compareJSONS(String compareFrom, String compareTo) throws ValidateException {
         T message = null;
         if (validateJSONS(compareFrom, compareTo)) {
             try {
@@ -24,22 +26,27 @@ public class JSONCompareInterfaceImpl implements JSONCompareInterface, JSONMapsJ
             } catch (AssertionError ex) {
                 message = (T) ex.getMessage();
             }
+        }else{
+            throw new ValidateException(ErrorConst.VALIDATE_ERROR_MESSAGE.toString());
         }
         return message;
     }
 
     @Override
-    public Map<ChangeType, List<String>> generateMapJSONChangesTypesOnPathsAndValues(String compareFrom, String compareTo) {
+    public Map<ChangeType, List<String>> generateMapJSONChangesTypesOnPathsAndValues(String compareFrom, String compareTo) throws ValidateException {
         Map<ChangeType, List<String>> mapTypeOnPaths = new HashMap<>();
         Object o = compareJSONS(compareFrom, compareTo);
         if (validateJSONS(compareFrom, compareTo)) {
-            if (!isBoolean(o)) {
-                fillMap(mapTypeOnPaths, o);
-                Map<ChangeType, List<String>> changeTypeListMap = replaceAllNotWantedChars(mapTypeOnPaths);
-                mapTypeOnPaths = changeTypeListMap;
-            }
+            checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(o,mapTypeOnPaths);
         }
         return mapTypeOnPaths;
+    }
+
+    private void checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(Object o, Map<ChangeType,List<String>> mapTypeOnPaths) {
+        if (!isBoolean(o)) {
+            fillMap(mapTypeOnPaths, o);
+            replaceAllNotWantedChars(mapTypeOnPaths);
+        }
     }
 
     @Override
@@ -117,6 +124,6 @@ public class JSONCompareInterfaceImpl implements JSONCompareInterface, JSONMapsJ
     }
 
     private boolean validateJSONS(String compareFrom, String compareTo) {
-        return JSONDataOperationsValidateUtil.isCorrect(compareFrom) && JSONDataOperationsValidateUtil.isCorrect(compareTo);
+        return JSONDataOperationsValidateUtil.isCorrectJSON(compareFrom) && JSONDataOperationsValidateUtil.isCorrectJSON(compareTo);
     }
 }

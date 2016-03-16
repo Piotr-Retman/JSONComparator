@@ -1,4 +1,4 @@
-package com.comparator.engine.logic;
+package com.comparator.engine.logic.json.impl;
 
 import java.util.List;
 

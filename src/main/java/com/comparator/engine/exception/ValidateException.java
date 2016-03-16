@@ -5,16 +5,14 @@ package com.comparator.engine.exception;
  */
 public class ValidateException extends Exception {
     private String message;
-    private int errorNumber;
 
-    public ValidateException(String message,int errorNumber){
-        this.errorNumber = errorNumber;
+    public ValidateException(String message){
         this.message = message;
         System.out.println(getMessage());
     }
 
     @Override
     public String getMessage() {
-        return errorNumber + " " + message;
+        return message;
     }
 }
