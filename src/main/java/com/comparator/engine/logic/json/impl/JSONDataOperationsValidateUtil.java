@@ -7,19 +7,19 @@ import org.json.JSONObject;
 /**
  * Created by Retman on 2016-03-04.
  */
-public class JSONDataOperationsValidateUtil {
+class JSONDataOperationsValidateUtil {
 
-    public static boolean isCorrectJSON(String jsonAsString) {
+    static boolean isCorrectJSON(String jsonAsString) {
         boolean isItOk = false;
-        if(isJSONObject(jsonAsString)){
+        if (isJSONObject(jsonAsString)) {
             isItOk = true;
-        }else if(isJSONArray(jsonAsString)){
+        } else if (isJSONArray(jsonAsString)) {
             isItOk = true;
         }
         return isItOk;
     }
 
-    public static boolean isJSONObject(String jsonAsString){
+    static boolean isJSONObject(String jsonAsString) {
         try {
             new JSONObject(jsonAsString);
             return true;
@@ -28,7 +28,7 @@ public class JSONDataOperationsValidateUtil {
         }
     }
 
-    public static boolean isJSONArray(String jsonAsString){
+    static boolean isJSONArray(String jsonAsString) {
         try {
             new JSONArray(jsonAsString);
             return true;

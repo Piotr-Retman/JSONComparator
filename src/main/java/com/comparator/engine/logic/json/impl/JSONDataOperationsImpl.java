@@ -4,29 +4,53 @@ import com.comparator.engine.logic.json.impl.interf.JSONDataOperationsInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Created by Retman on 2016-03-04.
  */
 public class JSONDataOperationsImpl implements JSONDataOperationsInterface {
+    Logger logger = Logger.getGlobal();
 
-    public String getRightJSON(String[] pathToFindJSON, String json) {
-        String finalJson = "";
-        if (JSONDataOperationsValidateUtil.isCorrectJSON(json)) {
-            Object outWhatDataTypeIsCurrentJSON = findOutWhatDataTypeIsCurrentJSON(json);
-
-            for (int i = 0; i <= pathToFindJSON.length; i++) {
-                if (outWhatDataTypeIsCurrentJSON instanceof JSONArray) {
-                    JSONArray list = new JSONArray(json);
-                } else if (outWhatDataTypeIsCurrentJSON instanceof JSONObject) {
-                    JSONObject object = new JSONObject(json);
-                }
-            }
+    @SuppressWarnings(value = "unchecked")
+    public <T extends Object> T getRightJSON(List<String> pathToFindJSON, String json, int index) {
+        try {
+            return (index < pathToFindJSON.size()) ? afterValid(json, pathToFindJSON, index) : (T) json;
+        } catch (Exception ex) {
+            logger.log(Level.ALL, ex.getMessage());
         }
-        return finalJson;
+        return null;
+    }
+
+    private <T extends Object> T afterValid(String json, List<String> pathToFindJSON, int index) {
+        String objectToRetrieve = "";
+        if (JSONDataOperationsValidateUtil.isCorrectJSON(json)) {
+            String nameOfJSON = pathToFindJSON.get(index);
+            Object outWhatDataTypeIsCurrentJSON = findOutWhatDataTypeIsCurrentJSON(json);
+            objectToRetrieve = retrieveTheData(outWhatDataTypeIsCurrentJSON, nameOfJSON, json);
+            index++;
+        }
+        return getRightJSON(pathToFindJSON, objectToRetrieve, index);
+    }
+
+    private String retrieveTheData(Object outWhatDataTypeIsCurrentJSON, String nameOfJSON, String json) {
+        String objectToRetrieve = "";
+        if (outWhatDataTypeIsCurrentJSON instanceof JSONArray) {
+            String[] nameOfArrayAndIndexWhichElementItIs = nameOfJSON.replace("[", ":").replace("]", "").split(":");
+            JSONArray object = new JSONArray(json);
+            objectToRetrieve = object.get(Integer.valueOf(nameOfArrayAndIndexWhichElementItIs[1])).toString();
+        } else if (outWhatDataTypeIsCurrentJSON instanceof JSONObject) {
+            nameOfJSON = nameOfJSON.replace("[]", "");
+            JSONObject object = new JSONObject(json);
+            objectToRetrieve = object.get(nameOfJSON).toString();
+        }
+        return objectToRetrieve;
     }
 
     @SuppressWarnings(value = "unchecked")
-    private <T extends Object> T findOutWhatDataTypeIsCurrentJSON(String json) {
+    public <T extends Object> T findOutWhatDataTypeIsCurrentJSON(String json) {
         boolean jsonArray = JSONDataOperationsValidateUtil.isJSONArray(json);
         boolean jsonObject = JSONDataOperationsValidateUtil.isJSONObject(json);
         if (jsonArray) {
@@ -34,7 +58,7 @@ public class JSONDataOperationsImpl implements JSONDataOperationsInterface {
         } else if (jsonObject) {
             return (T) new JSONObject();
         }
-        return null;
+        return (T) new Object();
     }
 
 

@@ -26,7 +26,7 @@ public class JSONCompareAndMapsJobsInterfacesImpl implements JSONCompareInterfac
             } catch (AssertionError ex) {
                 message = (T) ex.getMessage();
             }
-        }else{
+        } else {
             throw new ValidateException(ErrorConst.VALIDATE_ERROR_MESSAGE.toString());
         }
         return message;
@@ -37,12 +37,12 @@ public class JSONCompareAndMapsJobsInterfacesImpl implements JSONCompareInterfac
         Map<ChangeType, List<String>> mapTypeOnPaths = new HashMap<>();
         Object o = compareJSONS(compareFrom, compareTo);
         if (validateJSONS(compareFrom, compareTo)) {
-            checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(o,mapTypeOnPaths);
+            checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(o, mapTypeOnPaths);
         }
         return mapTypeOnPaths;
     }
 
-    private void checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(Object o, Map<ChangeType,List<String>> mapTypeOnPaths) {
+    private void checkIfNotBooleanAndFillMapAndReplaceUnwantedChars(Object o, Map<ChangeType, List<String>> mapTypeOnPaths) {
         if (!isBoolean(o)) {
             fillMap(mapTypeOnPaths, o);
             replaceAllNotWantedChars(mapTypeOnPaths);
@@ -65,7 +65,7 @@ public class JSONCompareAndMapsJobsInterfacesImpl implements JSONCompareInterfac
 
     private void removeUnnecessaryWhiteSpaces(List<String> list) {
         for (int i = 0; i < list.size() - 1; i++) {
-            list.set(i,list.get(i).trim().replaceAll(" +", " "));
+            list.set(i, list.get(i).trim().replaceAll(" +", " "));
         }
     }
 

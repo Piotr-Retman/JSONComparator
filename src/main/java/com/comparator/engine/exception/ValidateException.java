@@ -6,7 +6,7 @@ package com.comparator.engine.exception;
 public class ValidateException extends Exception {
     private String message;
 
-    public ValidateException(String message){
+    public ValidateException(String message) {
         this.message = message;
         System.out.println(getMessage());
     }
